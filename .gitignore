@@ -52,10 +52,10 @@ generated_frames_gan/
 test_outputs/
 samples/
 datasets/
-ComfyUI/input/
-ComfyUI/output/
-ComfyUI/models/
-ComfyUI/custom_nodes/
+# ComfyUI (exclude everything except our workflow)
+ComfyUI/
+!workflows/
+!workflows/*.json
 AnimateDiff/
 
 # Large files

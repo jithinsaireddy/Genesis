@@ -1,0 +1,111 @@
+{
+  "3": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "juggernautXL_juggXIByRundiffusion.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "cinematic shot of a butterfly flying in a garden, smooth motion, detailed wings, natural movement, masterpiece quality"
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "bad quality, blurry, static image, choppy motion, duplicate frames"
+    }
+  },
+  "6": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "batch_size": 16,
+      "height": 1024,
+      "width": 1024
+    }
+  },
+  "7": {
+    "class_type": "ADE_AnimateDiffSamplingSettings",
+    "inputs": {
+      "motion_scale": 1.0,
+      "frame_count": 16
+    }
+  },
+  "8": {
+    "class_type": "ADE_StandardUniformContextOptions",
+    "inputs": {
+      "context_length": 16,
+      "context_overlap": 4,
+      "context_schedule": "uniform",
+      "closed_loop": false
+    }
+  },
+  "9": {
+    "class_type": "ADE_LoadAnimateDiffModel",
+    "inputs": {
+      "model": ["3", 0],
+      "motion_model": "mm_sdxl_v10_beta.ckpt"
+    }
+  },
+  "14": {
+    "class_type": "ADE_ApplyAnimateDiffModel",
+    "inputs": {
+      "motion_model": ["9", 0],
+      "start_percent": 0.0,
+      "end_percent": 1.0,
+      "ad_keyframes": {
+        "keyframes": [
+          {
+            "start_percent": 0.0,
+            "motion_scale": 1.0,
+            "motion_pct": 1.0,
+            "effect_pct": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "10": {
+    "class_type": "ADE_UseEvolvedSampling",
+    "inputs": {
+      "model": ["3", 0],
+      "m_models": ["14", 0],
+      "context_options": ["8", 0],
+      "sample_settings": ["7", 0],
+      "beta_schedule": "linear (AnimateDiff-SDXL)"
+    }
+  },
+  "11": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": ["10", 0],
+      "positive": ["4", 0],
+      "negative": ["5", 0],
+      "latent_image": ["6", 0],
+      "seed": 42,
+      "steps": 30,
+      "cfg": 7.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1.0
+    }
+  },
+  "12": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["11", 0],
+      "vae": ["3", 2]
+    }
+  },
+  "13": {
+    "class_type": "SaveAnimatedWEBP",
+    "inputs": {
+      "images": ["12", 0],
+      "fps": 12,
+      "filename_prefix": "butterfly_animation"
+    }
+  }
+}
