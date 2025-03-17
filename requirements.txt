@@ -1,0 +1,23 @@
+torch>=2.0.0
+torchvision>=0.15.0
+Pillow>=10.0.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+pyttsx3>=2.90
+torchaudio>=2.0.0
+tts==0.13.3
+scipy==1.12.0
+pydub>=0.25.1
+soundfile>=0.12.1
+diffusers>=0.25.0
+ftfy>=6.1.1
+regex>=2023.6.3
+tqdm==4.66.2
+matplotlib==3.8.3
+wandb==0.16.3
+albumentations==1.3.1  # for advanced augmentations
+transformers>=4.30.0  # for Stable Diffusion XL
+accelerate>=0.27.0  # for optimized inference
+safetensors>=0.4.2  # for efficient model loading
+compel>=2.0.2  # for better prompt weighting
+xformers>=0.0.23.post1  # for memory efficient attention
